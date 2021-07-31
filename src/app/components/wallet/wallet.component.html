@@ -1,17 +1,17 @@
 <label for="address">Address</label><br><input #address placeholder="Enter address.."/><br>
 <button class="btn btn-primary" (click) = "onSubmit(address.value)">Submit</button>
-
+0x306dADcfc0fEB127bfbB8e686a722541AF9cDDB1
 <h2>Address: {{getAddress()}}</h2>
 <h3>Safemoon Balance:</h3>
 <p>{{getTotalSafemoon()}} Safemoon ({{getSafemoon()}} SFM + {{getPSafemoon()}} pSFM)</p>
 <h3>Safemoon Reflections:</h3>
 <p>{{getReflections()}} reflections</p>
 <h3>Safemoon Transactions:</h3>
-<ul>
-	<li *ngFor="let transaction of getSafemoonTransactions()">
+<div class="list-group">
+	<div class="list-group-item" *ngFor="let transaction of getSafemoonTransactions()">
 		<p>Date: {{transaction.timeStamp}}</p>
 		<p>Type: {{transaction.type}}</p>
 		<p>Amount: {{transaction.value}}</p>
-	</li>	
-</ul>
+	</div>
+</div>
 <p>Powered by BscScan.com APIs, Etherscan.io APIs</p>
