@@ -10,6 +10,8 @@ import { WalletService } from 'src/app/services/wallet.service';
 export class WalletComponent implements OnInit {
 
   private addressSubmitted: boolean;
+  private transactionsRetrieved: boolean;
+  private balancesRetrievedCounter: number;
   private address: string;
   private safemoonTransactions: SafemoonTransaction[];
   private reflections: string;
@@ -22,6 +24,8 @@ export class WalletComponent implements OnInit {
     this.reflections = "";
     this.address = "";
     this.addressSubmitted = false;
+    this.transactionsRetrieved = false;
+    this.balancesRetrievedCounter = 0;
     this.safemoon = "";
     this.pSafemoon = "";
     this.totalSafemoon = "";
@@ -31,26 +35,38 @@ export class WalletComponent implements OnInit {
   }
 
   public onSubmit(address: string) {
+    this.transactionsRetrieved = false;
+    this.balancesRetrievedCounter = 0;
+
     this.walletService.getSafemoonTransactions(address).subscribe((transactions: SafemoonTransaction[]) => {
       this.safemoonTransactions = transactions;
+      this.transactionsRetrieved = true;
     });
     this.walletService.getSafemoon(address).subscribe((value: string) => {
       this.safemoon = value;
+      this.balancesRetrievedCounter++;
     });
     this.walletService.getPSafemoon(address).subscribe((value: string) => {
       this.pSafemoon = value;
+      this.balancesRetrievedCounter++;
     });
     this.walletService.getTotalSafemoon(address).subscribe((value: string) => {
       this.totalSafemoon = value;
+      this.balancesRetrievedCounter++;
     });
     this.walletService.getReflections(address).subscribe((value: string) => {
       this.reflections = value;
     });
     this.address = address;
+    this.addressSubmitted = true;
   }
 
   public getSafemoonTransactions(): SafemoonTransaction[] {
     return this.safemoonTransactions;
+  }
+
+  public getTransactionsRetrieved(): boolean {
+    return this.transactionsRetrieved;
   }
 
   public getReflections(): string {
@@ -61,7 +77,7 @@ export class WalletComponent implements OnInit {
     return this.address;
   }
 
-  public isAddressSubmitted(): boolean {
+  public getAddressSubmitted(): boolean {
     return this.addressSubmitted;
   }
 
@@ -75,5 +91,9 @@ export class WalletComponent implements OnInit {
 
   public getTotalSafemoon(): string {
     return this.totalSafemoon;
+  }
+
+  public getBalancesRetrieved(): boolean {
+    return this.balancesRetrievedCounter == 3;
   }
 }

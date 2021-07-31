@@ -1,17 +1,28 @@
-<label for="address">Address</label><br><input #address placeholder="Enter address.."/><br>
+<label for="address">Address</label><input #address value="0x306dADcfc0fEB127bfbB8e686a722541AF9cDDB1" placeholder="Enter address.."/>
 <button class="btn btn-primary" (click) = "onSubmit(address.value)">Submit</button>
-0x306dADcfc0fEB127bfbB8e686a722541AF9cDDB1
-<h2>Address: {{getAddress()}}</h2>
-<h3>Safemoon Balance:</h3>
-<p>{{getTotalSafemoon()}} Safemoon ({{getSafemoon()}} SFM + {{getPSafemoon()}} pSFM)</p>
-<h3>Safemoon Reflections:</h3>
-<p>{{getReflections()}} reflections</p>
-<h3>Safemoon Transactions:</h3>
-<div class="list-group">
-	<div class="list-group-item" *ngFor="let transaction of getSafemoonTransactions()">
-		<p>Date: {{transaction.timeStamp}}</p>
-		<p>Type: {{transaction.type}}</p>
-		<p>Amount: {{transaction.value}}</p>
+<br>
+<div *ngIf="getAddressSubmitted()" class="containter">
+	<h5>{{getAddress()}}</h5>
+	<h5>Balance</h5>
+	<div *ngIf="getBalancesRetrieved(); else loading">
+		<p>{{getTotalSafemoon()}} Safemoon</p>
+		<ul *ngIf="getSafemoon() != '0.00' && getPSafemoon() != '0.00'">
+			<li>{{getSafemoon()}} SFM</li>
+			<li>{{getPSafemoon()}} pSFM</li>
+		</ul>
 	</div>
+	<h5>Reflections</h5>
+	<p *ngIf="getReflections() != ''; else loading">{{getReflections()}} Safemoon</p>
+	<h5>Transactions</h5>
+	<div *ngIf="getTransactionsRetrieved(); else loading" class="list-group">
+		<div class="list-group-item list-group-item-action row align-items-start" *ngFor="let transaction of getSafemoonTransactions()">
+			<div class="row align-items-start">
+				<div class="col-auto me-auto">{{ transaction.type | titlecase }} {{transaction.value}} Safemoon</div>
+				<div class="col-auto">{{transaction.timeStamp | date}}</div>
+			</div>
+		</div>
+	</div>
+	<br>
+	<small>Powered by BscScan.com APIs and Etherscan.io APIs</small>
 </div>
-<p>Powered by BscScan.com APIs, Etherscan.io APIs</p>
+<ng-template #loading>Loading...</ng-template>
