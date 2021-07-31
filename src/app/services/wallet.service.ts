@@ -13,9 +13,9 @@ export class WalletService {
   private reflectionsUrl: string;
 
   constructor(private http: HttpClient) { 
-      this.transactionsUrl = "http://localhost:8081/transactions";
-      this.balanceUrl = "http://localhost:8081/balances";
-      this.reflectionsUrl = "http://localhost:8081/reflections";
+      this.transactionsUrl = "https://safemooncharts.herokuapp.com/transactions";
+      this.balanceUrl = "https://safemooncharts.herokuapp.com/balances";
+      this.reflectionsUrl = "https://safemooncharts.herokuapp.com/reflections";
   }
 
   public getSafemoonTransactions(address: string): Observable<SafemoonTransaction[]> {
