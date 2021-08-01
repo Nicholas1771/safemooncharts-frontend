@@ -1,5 +1,23 @@
-<ul class="list-group">
-	<li class="list-group-item">Item one</li>
-	<li class="list-group-item">Item one</li>
-	<li class="list-group-item">Item one</li>
-</ul>
+<br>
+<h5>{{getTitle()}}</h5>
+<br>
+<form #form="ngForm">
+	<label>Email</label><input ngModel #email="ngModel" required type="email" name="email" placeholder="Enter email..." class="form-control"/>
+	<div *ngIf="email.touched && email.errors" class="alert alert-danger">
+		<p *ngIf="email.errors?.required">Email is required</p>
+	</div>
+	<label>Password</label><input ngModel #password="ngModel" required type="password" name="password" placeholder="Enter password..." class="form-control"/>
+	<div *ngIf="password.touched && password.errors" class="alert alert-danger">
+		<p *ngIf="password.errors?.required">Password is required</p>
+	</div>
+	<label>Confirm Password</label><input ngModel #confirmPassword="ngModel" required type="password" name="confirmPassword" placeholder="Confirm password..." class="form-control"/>
+	<div *ngIf="confirmPassword.touched && confirmPassword.errors" class="alert alert-danger">
+		<p *ngIf="confirmPassword.errors?.required">Confirm password is required</p>
+	</div>
+	<br>
+	<button type="button" class="btn btn-primary" (click)="signup(form.value)">Sign Up</button>
+	<br>
+	<br>
+	<p *ngIf="getSignupMessage() == 'Successfully signed up'" class="text-success">{{getSignupMessage()}}</p>
+	<p *ngIf="getSignupMessage() == 'Passwords do not match'" class="text-danger">{{getSignupMessage()}}</p>
+</form>
